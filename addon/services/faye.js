@@ -25,6 +25,10 @@ export default Ember.Service.extend({
     this.set('client', client);
   },
 
+  publish(channel, payload, options = {}) {
+    return this.get('client').publish(channel, payload, options);
+  },
+
   subscribe(channel, callback, binding) {
     if (!binding) {
       binding = this;
