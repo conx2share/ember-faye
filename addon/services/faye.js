@@ -3,12 +3,20 @@ import Ember from 'ember';
 export default Ember.Service.extend({
   client: null,
   subscriptions: {},
+  online: false,
+  offline: Ember.computed.not('online'),
 
   init () {
     Ember.Logger.debug('Initializing Ember Faye service...');
     this._super(...arguments);
     const config = Ember.getOwner(this).resolveRegistration('config:environment').faye;
     let client = new Faye.Client(config.URL, config.options);
+    client.on('transport:up', () => {
+      this.set('online', true);
+    });
+    client.on('transport:down', () => {
+      this.set('online', false);
+    });
     if (config.disable) {
       Ember.forEach(config.disable, function(transport) {
         client.disable(transport);
