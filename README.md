@@ -1,6 +1,6 @@
-# Ember-faye
+# Ember-Faye
 
-This README outlines the details of collaborating on this Ember addon.
+Seamlessly integrates [Ember][] and [Faye][] using [`ember-cli`][]
 
 ## Installation
 
@@ -23,4 +23,8 @@ This README outlines the details of collaborating on this Ember addon.
 
 * `ember build`
 
-For more information on using ember-cli, visit [http://ember-cli.com/](http://ember-cli.com/).
+For more information on using `ember-cli`, visit [`ember-cli`][].
+
+[Ember]: http://emberjs.com/
+[`ember-cli`]: http://ember-cli.com/
+[Faye]: http://faye.jcoglan.com/
