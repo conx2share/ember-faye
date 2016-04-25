@@ -4,9 +4,30 @@ Seamlessly integrates [Ember][] and [Faye][] using [`ember-cli`][]
 
 ## Installation
 
-* `git clone` this repository
-* `npm install`
-* `bower install`
+Install as usual `ember-cli` addon:
+
+``` bash
+ember install ember-faye
+```
+
+Configure it in `config/environment.js`:
+
+``` javascript
+module.exports = function(environment) {
+  var ENV = {
+    /// ...
+    faye: {
+      URL: 'http://127.0.0.1:3000/faye',
+      options: {
+        timeout: 5
+      }
+    }
+    /// ...
+  };
+
+  return ENV;
+};
+```
 
 ## Running
 
