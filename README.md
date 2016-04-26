@@ -34,6 +34,33 @@ module.exports = function(environment) {
 };
 ```
 
+In another service (or controller) you could subscribe to `faye` channels like this:
+
+``` javascript
+// app/service/messenger.js
+import Ember from 'ember';
+
+export default Ember.Service.extend({
+  faye: Ember.inject.service(),
+
+  init() {
+    this._super(...arguments);
+    this.setup();
+  },
+
+  setup() {
+    let faye = this.get('faye');
+    let subscription = faye.subscribe('/some/channel', this.get('onMessage'), this);
+    return subscription;
+  },
+
+  onMessage(data, channel) {
+    console.debug(`Received message on channel "${channel}":`, data);
+  }
+});
+
+```
+
 ## Running
 
 * `ember server`
