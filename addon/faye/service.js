@@ -3,6 +3,7 @@ const { getOwner } = Ember;
 
 export default Ember.Service.extend({
   client: null,
+  config: null,
   subscriptions: {},
   online: false,
   offline: Ember.computed.not('online'),
@@ -11,18 +12,36 @@ export default Ember.Service.extend({
     Ember.Logger.debug('Initializing Ember Faye service...');
     this._super(...arguments);
     let config = (getOwner(this).resolveRegistration('config:environment') || {}).faye || {};
+    this.set('config', config);
+
+    this.setupServiceClient();
+  },
+
+  createClient() {
+    let config = this.get('config');
     let client = new Faye.Client(config.URL, config.options);
-    client.on('transport:up', () => {
-      this.set('online', true);
-    });
-    client.on('transport:down', () => {
-      this.set('online', false);
-    });
+
     if (config.disable) {
       Ember.forEach(config.disable, function(transport) {
         client.disable(transport);
       });
     }
+
+    return client;
+  },
+
+  setupServiceClient(client = null) {
+    if (!client) {
+      client = this.createClient();
+    }
+
+    client.on('transport:up', () => {
+      this.set('online', true);
+    });
+
+    client.on('transport:down', () => {
+      this.set('online', false);
+    });
     this.set('client', client);
   },
 
