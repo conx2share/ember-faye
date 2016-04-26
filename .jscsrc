@@ -1,0 +1,11 @@
+{
+  "preset": "ember-suave",
+  "excludeFiles": [
+    "bower_components/**",
+    "node_modules/**",
+    "config/environment.js",
+    "tests/unit/initializers/faye-test.js",
+    "tests/unit/services/faye-test.js",
+    "helpers/module-for-acceptance.js"
+  ]
+}

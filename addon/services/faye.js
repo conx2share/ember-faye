@@ -1,4 +1,5 @@
 import Ember from 'ember';
+const { getOwner } = Ember;
 
 export default Ember.Service.extend({
   client: null,
@@ -6,10 +7,10 @@ export default Ember.Service.extend({
   online: false,
   offline: Ember.computed.not('online'),
 
-  init () {
+  init() {
     Ember.Logger.debug('Initializing Ember Faye service...');
     this._super(...arguments);
-    const config = Ember.getOwner(this).resolveRegistration('config:environment').faye;
+    let config = getOwner(this).resolveRegistration('config:environment').faye || {};
     let client = new Faye.Client(config.URL, config.options);
     client.on('transport:up', () => {
       this.set('online', true);
