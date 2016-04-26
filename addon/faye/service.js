@@ -21,6 +21,31 @@ export default Ember.Service.extend({
     let config = this.get('config');
     let client = new Faye.Client(config.URL, config.options);
 
+    client.addExtension({
+      incoming: (message, callback) => {
+        console.debug('faye-in: ', message);
+
+        if (message.data && message.data.eventName && message.data.data) {
+          console.info('Got event!');
+          let router = getOwner(this).lookup('router:main');
+          try {
+            router.send(message.data.eventName, message.data.data);
+          } catch (e) {
+            let unhandled = e.message.match(/Nothing handled the event/);
+            if (!unhandled) {
+              throw e;
+            }
+          }
+        }
+        callback(message);
+      },
+
+      outgoing: (message, callback) => {
+        console.debug('faye-out:', message);
+        callback(message);
+      }
+    });
+
     if (config.disable) {
       Ember.forEach(config.disable, function(transport) {
         client.disable(transport);
