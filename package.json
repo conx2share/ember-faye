@@ -1,6 +1,6 @@
 {
   "name": "ember-faye",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Ember and Faye integration",
   "directories": {
     "doc": "doc",
