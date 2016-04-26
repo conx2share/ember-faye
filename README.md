@@ -2,8 +2,10 @@
 
 Ember Faye is an [`ember-cli`][] addon that seamlessly integrates [Faye][] realtime messaging into [Ember][] application.
 
-* NPM: [ember-faye][npm]
-* Github: [ember-faye][github]
+* NPM: [![npm](https://img.shields.io/npm/v/ember-faye.svg?maxAge=2592000)][npm]
+* Github: [![GitHub commits](https://img.shields.io/github/issues/alsemyonov/ember-faye.svg?maxAge=2592000)][github]
+* Code quality: [![Code Climate](https://codeclimate.com/github/alsemyonov/ember-faye/badges/gpa.svg)][codeclimate]
+* CI: [![Build Status](https://img.shields.io/travis/alsemyonov/ember-faye.svg?maxAge=2592000)][travis-ci] 
 * Ember Addons: [ember-faye][emberaddons]
 * Ember Observer: [ember-faye][emberobserver]
 
@@ -78,16 +80,19 @@ export default Ember.Service.extend({
 
 For more information on using `ember-cli`, visit [`ember-cli`][].
 
-© [Alex Semyonov][], [@alsemyonov][], <[alex@semyonov.us][]>, 2016.
+© [Alex Semyonov][], [@alsemyonov][], <[alex@semyonov.us][]>, 2016, [![MIT license](https://img.shields.io/github/license/alsemyonov/ember-faye.svg?maxAge=2592000)][MIT License].
 
 [Ember]: http://emberjs.com/
 [`ember-cli`]: http://ember-cli.com/
 [Faye]: http://faye.jcoglan.com/
+[MIT License]: http://choosealicense.com/licenses/mit/
 
 [npm]: https://www.npmjs.com/package/ember-faye
 [github]: https://github.com/alsemyonov/ember-faye
 [emberobserver]: https://emberobserver.com/addons/ember-faye
 [emberaddons]: https://www.emberaddons.com/?query=ember-faye
+[codeclimate]: https://codeclimate.com/github/alsemyonov/ember-faye
+[travis-ci]: https://travis-ci.com/alsemyonov/ember-faye
 
 [Alex Semyonov]: https://al.semyonov.us/
 [@alsemyonov]: https://github.com/alsemyonov
