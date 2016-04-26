@@ -10,7 +10,7 @@ export default Ember.Service.extend({
   init() {
     Ember.Logger.debug('Initializing Ember Faye service...');
     this._super(...arguments);
-    let config = getOwner(this).resolveRegistration('config:environment').faye || {};
+    let config = (getOwner(this).resolveRegistration('config:environment') || {}).faye || {};
     let client = new Faye.Client(config.URL, config.options);
     client.on('transport:up', () => {
       this.set('online', true);
