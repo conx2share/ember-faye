@@ -5,7 +5,11 @@ module.exports = function(/* environment, appConfig */) {
   return {
     faye: {
       URL: null,
-      options: {}
+      options: {
+      },
+      logging: true,
+      emberEvents: true,
+      csrf: true
     }
   };
 };

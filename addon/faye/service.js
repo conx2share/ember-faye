@@ -1,5 +1,6 @@
 import Ember from 'ember';
 const { getOwner } = Ember;
+import { CsrfProtection, Logging, EmberEvents } from 'ember-faye/utils/faye-extensions';
 
 export default Ember.Service.extend({
   client: null,
@@ -21,33 +22,24 @@ export default Ember.Service.extend({
     let config = this.get('config');
     let client = new Faye.Client(config.URL, config.options);
 
-    client.addExtension({
-      incoming: (message, callback) => {
-        console.debug('faye-in: ', message);
+    // Loudly logging
+    if (config.logging) {
+      client.addExtension(Logging);
+    }
 
-        if (message.data && message.data.eventName && message.data.data) {
-          console.info('Got event!');
-          let router = getOwner(this).lookup('router:main');
-          try {
-            router.send(message.data.eventName, message.data.data);
-          } catch (e) {
-            let unhandled = e.message.match(/Nothing handled the event/);
-            if (!unhandled) {
-              throw e;
-            }
-          }
-        }
-        callback(message);
-      },
+    // CSRF Protection
+    if (config.csrf) {
+      client.addExtension(CsrfProtection);
+    }
 
-      outgoing: (message, callback) => {
-        console.debug('faye-out:', message);
-        callback(message);
-      }
-    });
+    // Ember Events
+    if (config.emberEvents) {
+      client._router = getOwner(this).lookup('router:main');
+      client.addExtension(EmberEvents);
+    }
 
     if (config.disable) {
-      Ember.forEach(config.disable, function(transport) {
+      Ember.forEach(config.disable, (transport) => {
         client.disable(transport);
       });
     }
@@ -67,6 +59,7 @@ export default Ember.Service.extend({
     client.on('transport:down', () => {
       this.set('online', false);
     });
+
     this.set('client', client);
   },
 
