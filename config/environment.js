@@ -9,7 +9,9 @@ module.exports = function(/* environment, appConfig */) {
       },
       logging: true,
       emberEvents: true,
-      csrf: true
+      csrf: true,
+      sessionToken: false,
+      autoInit: true
     }
   };
 };

@@ -1,6 +1,6 @@
 import Ember from 'ember';
 const { getOwner } = Ember;
-import { CsrfProtection, Logging, EmberEvents } from 'ember-faye/utils/faye-extensions';
+import { CsrfProtection, SessionTokenProtection, Logging, EmberEvents } from 'ember-faye/utils/faye-extensions';
 
 export default Ember.Service.extend({
   client: null,
@@ -15,10 +15,13 @@ export default Ember.Service.extend({
     let config = (getOwner(this).resolveRegistration('config:environment') || {}).faye || {};
     this.set('config', config);
 
-    this.setupServiceClient();
+    if (config.autoInit || !config.sessionToken) {
+      this.setupServiceClient();
+    }
   },
 
-  createClient() {
+  createClient(options) {
+    options = options || {};
     let config = this.get('config');
     let client = new Faye.Client(config.URL, config.options);
 
@@ -30,6 +33,11 @@ export default Ember.Service.extend({
     // CSRF Protection
     if (config.csrf) {
       client.addExtension(CsrfProtection);
+    }
+
+    // Token Protection
+    if (config.sessionToken) {
+      client.addExtension(new SessionTokenProtection(options.sessionToken));
     }
 
     // Ember Events
@@ -67,10 +75,9 @@ export default Ember.Service.extend({
     return this.get('client').publish(channel, payload, options);
   },
 
-  subscribe(channel, callback, binding) {
-    if (!binding) {
-      binding = this;
-    }
+  subscribe(channel, callback, binding, options) {
+    options = options || {};
+    binding = binding || this;
 
     let bindCallback = callback.bind(binding);
 

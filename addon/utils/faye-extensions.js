@@ -1,5 +1,15 @@
 import Ember from 'ember';
 
+export const SessionTokenProtection = function(sessionToken) {
+  return {
+    outgoing(message, callback) {
+      message.ext = message.ext || {};
+      message.ext.sessionToken = sessionToken;
+      callback(message);
+    }
+  };
+};
+
 export const CsrfProtection = {
   outgoing(message, callback) {
     message.ext = message.ext || {};
