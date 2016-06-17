@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import FayeInitializer from 'dummy/faye/initializer';
+import FayeInitializer from 'dummy/initializers/faye';
 import { module, test } from 'qunit';
 
 let application;
