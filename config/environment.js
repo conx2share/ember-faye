@@ -7,10 +7,10 @@ module.exports = function(/* environment, appConfig */) {
       URL: null,
       options: {
       },
-      logging: true,
+      logging: false,
       emberEvents: true,
       csrf: true,
-      sessionToken: false,
+      authToken: true,
       autoInit: true
     }
   };

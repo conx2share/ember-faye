@@ -1,6 +1,6 @@
 import Ember from 'ember';
 const { getOwner } = Ember;
-import { CsrfProtection, SessionTokenProtection, Logging, EmberEvents } from 'ember-faye/utils/faye-extensions';
+import { CsrfProtection, AuthTokenProtection, Logging, EmberEvents } from 'ember-faye/utils/faye-extensions';
 
 export default Ember.Service.extend({
   client: null,
@@ -15,7 +15,7 @@ export default Ember.Service.extend({
     let config = (getOwner(this).resolveRegistration('config:environment') || {}).faye || {};
     this.set('config', config);
 
-    if (config.autoInit || !config.sessionToken) {
+    if (config.autoInit || !config.authToken) {
       this.setupServiceClient();
     }
   },
@@ -36,8 +36,8 @@ export default Ember.Service.extend({
     }
 
     // Token Protection
-    if (config.sessionToken) {
-      client.addExtension(new SessionTokenProtection(options.sessionToken));
+    if (config.authToken) {
+      client.addExtension(new AuthTokenProtection(options.authToken));
     }
 
     // Ember Events

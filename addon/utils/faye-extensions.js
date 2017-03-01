@@ -1,10 +1,10 @@
 import Ember from 'ember';
 
-export const SessionTokenProtection = function(sessionToken) {
+export const AuthTokenProtection = function(authToken) {
   return {
     outgoing(message, callback) {
       message.ext = message.ext || {};
-      message.ext.sessionToken = sessionToken;
+      message.ext.auth_token = authToken;
       callback(message);
     }
   };
